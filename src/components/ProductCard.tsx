@@ -2,6 +2,7 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   id: string;
@@ -27,6 +28,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const { addItem } = useCart();
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -93,7 +95,10 @@ export const ProductCard = ({
         <Button 
           variant="marketplace" 
           className="w-full mt-3"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            addItem({ id, image, title, price, seller });
+          }}
         >
           Add to Cart
         </Button>
